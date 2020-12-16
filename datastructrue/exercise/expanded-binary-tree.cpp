@@ -1,37 +1,50 @@
-include<bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
 struct Node {
     char val;
-    Node* leftchild;
-    Node* rightchild;
-    Node* father;
-    Node(char v){val=v;leftchild=NULL,rightchild=NULL;}
-}
+    Node* lchild;
+    Node* rchild;
+    Node(char v){val=v;lchild=NULL;rchild=NULL;}
+};
+
+Node* root=new Node('0');
+string s;
+int t=0;
 
 
-enum FLAG{
-    left=0;
-    right=1;
+void build_tree(Node * &root){//替身 (不仅仅传值，还可以更改原指针)
+    char curr=s[t++];
+	if(curr!='.'){
+		root=new Node(curr);
+		build_tree(root->lchild);//递归建左子树 
+		build_tree(root->rchild);//递归建右子树
+	}
+	else root=NULL;
 }
+
+void inorder(Node* root){
+    if(root){
+        inorder(root->lchild);
+        cout<<root->val;
+        inorder(root->rchild);
+    }    
+}
+
+void backorder(Node* root){
+    if(root){
+        backorder(root->lchild);
+        backorder(root->rchild);
+        cout<<root->val;
+    }    
+}
+
 
 int main(){
-    string str;
-    cin>>str;
-    Node* root=new Node(str[0]);
-    int size=str.size();
-    FLAG flag = left;
-    Node* temp=root;
-    for(int i=1;i<size;i++){
-        char curr = str[i];
-        if(flag == left){
-            
-
-
-        }
-
-    }
-
-
+    cin>>s;
+    build_tree(root);
+    inorder(root);
+    cout<<endl;
+    backorder(root);
     return 0;
 }
